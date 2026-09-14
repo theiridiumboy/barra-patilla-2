@@ -1,0 +1,75 @@
+<!--
+BARRA DE PATILLA 2 — sandbox nuevo, mismo formato de banner que "Barra de Patilla 1"
+(el reloj de la mesa de diálogo, en ~/proyectos/reloj-flip).
+Banner fijo 980x200, escalado proporcional vía container query (misma técnica
+verificada en Barra 1), cero contenido definido todavía. Widget real va donde dice
+PLACEHOLDER.
+-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Barra de Patilla 2</title>
+<style>
+  :root{
+    --bg: #ffffff;
+    --ink: #111111;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    background: var(--bg);
+    width: 100%;
+  }
+
+  .banner-link{
+    display: block;
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .banner-wrap{
+    container-type: inline-size;
+    width: 100%;
+    aspect-ratio: 980 / 200;
+    overflow: hidden;
+    background: var(--bg);
+  }
+
+  .banner{
+    position: relative;
+    width: 980px;
+    height: 200px;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Arial Narrow", Arial, "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transform: scale(calc(100cqw / 980px));
+    transform-origin: top left;
+  }
+
+  .placeholder{
+    color: var(--ink);
+    font-size: 24px;
+    opacity: 0.35;
+  }
+</style>
+</head>
+<body>
+
+<div class="banner-wrap">
+  <div class="banner">
+    <div class="placeholder">Barra de Patilla 2 — 980×200</div>
+  </div>
+</div>
+
+</body>
+</html>
