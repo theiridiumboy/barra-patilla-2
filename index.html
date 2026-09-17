@@ -1,19 +1,19 @@
 <!--
-BARRA DE PATILLA 2 — sandbox nuevo, mismo formato de banner que "Barra de Patilla 1"
-(el reloj de la mesa de diálogo, en ~/proyectos/reloj-flip).
-Banner fijo 980x200, escalado proporcional vía container query (misma técnica
-verificada en Barra 1), cero contenido definido todavía. Widget real va donde dice
-PLACEHOLDER.
+BARRA DE PATILLA 2 — banner 980x200, dos especiales de investigación.
+Mismo ADN visual y misma técnica de escala responsiva que Barra de Patilla 1
+(el reloj de la mesa de diálogo, en ~/proyectos/reloj-flip): container-type:
+inline-size + aspect-ratio 980/200, sin breakpoints.
+Estilo aprobado por Rory en artifact de Claude (v17, 2026-09-16). Contenido
+actualizado a mano (editar, commit, push), igual que Barra 1.
 -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Barra de Patilla 2</title>
+<title>Barra de Patilla 2 — Especiales de investigación</title>
 <style>
   :root{
-    --bg: #ffffff;
-    --ink: #111111;
+    --lp-red: #ff0400;
   }
 
   *{ box-sizing: border-box; }
@@ -21,55 +21,409 @@ PLACEHOLDER.
   html,body{
     margin:0;
     padding:0;
-    background: var(--bg);
+    background: #000;
     width: 100%;
-  }
-
-  .banner-link{
-    display: block;
-    width: 100%;
-    max-width: 980px;
-    margin: 0 auto;
-    text-decoration: none;
-    color: inherit;
   }
 
   .banner-wrap{
     container-type: inline-size;
     width: 100%;
+    max-width: 980px;
     aspect-ratio: 980 / 200;
     overflow: hidden;
-    background: var(--bg);
+    border-radius: 4px;
   }
 
   .banner{
     position: relative;
-    width: 980px;
-    height: 200px;
-    background: var(--bg);
+    width: 100%;
+    height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
     font-family: "Arial Narrow", Arial, "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
-    transform: scale(calc(100cqw / 980px));
-    transform-origin: top left;
+    background: #000;
   }
 
-  .placeholder{
-    color: var(--ink);
-    font-size: 24px;
-    opacity: 0.35;
+  .half{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  .half:focus-visible{
+    outline: 3px solid #fff;
+    outline-offset: -4px;
+  }
+
+  .half:hover .enter-btn,
+  .half:focus-visible .enter-btn{
+    background: #fff;
+    color: var(--lp-red);
+  }
+
+  .half:hover .headline,
+  .half:focus-visible .headline{
+    text-decoration: underline;
+  }
+
+  .half .bg{
+    position: absolute;
+    inset: -8%;
+    background-size: cover;
+    background-position: center;
+    animation-duration: 17s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+
+  .bg-hospitales{
+    background-image: url('img/hospitales.jpg');
+    animation-name: kb-zoom-pan-a;
+  }
+
+  .bg-torturas{
+    background: radial-gradient(120% 140% at 30% 20%, #2a0e0e 0%, #120505 55%, #050202 100%);
+  }
+
+  .bg-torturas .render{
+    position: absolute;
+    right: -6%;
+    bottom: -10%;
+    width: 78%;
+    filter: grayscale(.6) brightness(.85) contrast(1.08) drop-shadow(0 10px 24px rgba(0,0,0,.6));
+    animation: kb-zoom-pan-b 17s ease-in-out infinite alternate;
+  }
+
+  @keyframes kb-zoom-pan-a{
+    0%   { transform: scale(1) translate(0,0); }
+    100% { transform: scale(1.14) translate(-2%, -1.5%); }
+  }
+  @keyframes kb-zoom-pan-b{
+    0%   { transform: scale(1) translate(0,0); }
+    100% { transform: scale(1.1) translate(-2%, 2%); }
+  }
+
+  .overlay{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 32%, rgba(0,0,0,.55) 66%, rgba(0,0,0,.9) 100%);
+  }
+
+  .brand-mark{
+    position: absolute;
+    right: 2.45%;
+    bottom: 4%;
+    height: clamp(17px, 3.35cqw, 33px);
+    width: auto;
+    opacity: .55;
+    pointer-events: none;
+  }
+
+  @container (max-width: 260px){
+    .brand-mark{ display: none; }
+  }
+
+  .copy{
+    position: absolute;
+    left: 3.67%;
+    right: 3.67%;
+    bottom: 7%;
+  }
+
+  .tag{
+    font-size: clamp(8px, 1.05cqw, 10px);
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--lp-red);
+    display: block;
+    margin-bottom: .5em;
+  }
+
+  .headline{
+    font-size: clamp(13px, 3cqw, 21px);
+    font-weight: 700;
+    line-height: 1.12;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .enter-btn{
+    display: inline-block;
+    margin-top: .8em;
+    padding: .48em 1.3em;
+    background: var(--lp-red);
+    color: #fff;
+    font-size: clamp(7px, 1.35cqw, 10.5px);
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    box-shadow: 0 0 0 0 rgba(255,4,0,.55);
+    animation: enter-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes enter-pulse{
+    0%, 100%{ transform: scale(1); box-shadow: 0 0 0 0 rgba(255,4,0,.55); }
+    50%{ transform: scale(1.06); box-shadow: 0 0 0 7px rgba(255,4,0,0); }
+  }
+
+  .quiet .enter-btn{
+    animation: none;
+    box-shadow: none;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .enter-btn{ animation: none; }
+  }
+
+  .pulse-line{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .ekg-trace{
+    fill: none;
+    stroke: rgba(255,255,255,.4);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .travel-pulse{
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 2px rgba(255,255,255,.5));
+    animation: travel 7s linear infinite;
+  }
+
+  @keyframes travel{
+    from{ stroke-dashoffset: var(--pulse-start, 0); }
+    to{ stroke-dashoffset: var(--pulse-end, 0); }
+  }
+
+  .wire-strand{
+    fill: none;
+    stroke: url(#chainSteel);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+
+  .wire-barb line{
+    stroke: url(#chainSteel);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  .wire-barb circle{
+    fill: url(#chainSteel);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .travel-pulse{ animation: none; }
+    .bg, .render{ animation: none; }
+  }
+
+  .seam{
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgba(255,255,255,.35);
+    z-index: 5;
+  }
+
+  /* credit, top right corner: bottom-right ya lo ocupa el watermark propio
+     de cada especial, así que el crédito compartido de LaPatilla va arriba,
+     libre de los bloques de texto y de la línea del seam. */
+  .credit{
+    position: absolute;
+    top: 4%;
+    right: 2.45%;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0,0,0,.45);
+    padding: clamp(2px, .4cqw, 3px) clamp(6px, 1.2cqw, 9px);
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .credit-label{
+    font-size: clamp(6px, .95cqw, 7px);
+    font-weight: 700;
+    letter-spacing: .02em;
+    color: rgba(255,255,255,.75);
+  }
+
+  .credit img{
+    height: clamp(8px, 1.15cqw, 9px);
+    width: auto;
+    display: block;
+  }
+
+  @container (max-width: 260px){
+    .credit{ display: none; }
   }
 </style>
 </head>
 <body>
 
 <div class="banner-wrap">
-  <div class="banner">
-    <div class="placeholder">Barra de Patilla 2 — 980×200</div>
+  <div class="banner" id="bannerRoot">
+
+    <a class="half" href="https://especialhospitales.lapatilla.com/" target="_blank" rel="noopener noreferrer" aria-label="Las ruinas del sistema de salud, especial de La Patilla">
+      <div class="bg bg-hospitales"></div>
+      <div class="overlay"></div>
+      <img class="brand-mark" src="img/ruinas-icon.png" alt="">
+      <div class="copy">
+        <span class="tag">Especial &middot; Salud pública</span>
+        <p class="headline">Las ruinas del sistema de salud</p>
+        <span class="enter-btn">Entra aquí</span>
+      </div>
+    </a>
+
+    <a class="half quiet" href="https://especialtorturas.lapatilla.com/" target="_blank" rel="noopener noreferrer" aria-label="Centros del horror, especial de La Patilla sobre tortura en Venezuela">
+      <div class="bg bg-torturas">
+        <img class="render" src="img/helicoide.png" alt="">
+      </div>
+      <div class="overlay"></div>
+      <img class="brand-mark" src="img/horror-icon-duotone.png" alt="">
+      <div class="copy">
+        <span class="tag">Especial &middot; Derechos humanos</span>
+        <p class="headline">Centros del horror</p>
+        <span class="enter-btn">Entra aquí</span>
+      </div>
+    </a>
+
+    <svg class="pulse-line" viewBox="0 0 980 200" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="chainSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#eef0f1" />
+          <stop offset="22%" stop-color="#9aa0a6" />
+          <stop offset="48%" stop-color="#54585c" />
+          <stop offset="70%" stop-color="#c9ccd0" />
+          <stop offset="100%" stop-color="#45484c" />
+        </linearGradient>
+      </defs>
+      <path class="ekg-trace" id="ekgTrace" />
+      <path class="wire-strand" id="wireStrandA" />
+      <path class="wire-strand" id="wireStrandB" />
+      <path class="travel-pulse" id="travelPulse" />
+      <g id="wireBarbs"></g>
+    </svg>
+
+    <div class="seam" aria-hidden="true"></div>
+
+    <div class="credit" aria-hidden="true">
+      <span class="credit-label">Desarrollado por</span>
+      <img src="img/lp-logo-light.png" alt="">
+    </div>
+
   </div>
 </div>
+
+<script>
+  var BASELINE = 57;
+
+  function buildEkgPath(x0, x1, amp){
+    var unit = 70;
+    var d = 'M' + x0 + ',' + BASELINE;
+    for (var x = x0; x < x1 - unit; x += unit){
+      d += ' L' + (x + 8) + ',' + BASELINE;
+      d += ' Q' + (x + 14) + ',' + (BASELINE - amp * 0.18) + ' ' + (x + 20) + ',' + BASELINE;
+      d += ' L' + (x + 28) + ',' + BASELINE;
+      d += ' L' + (x + 32) + ',' + (BASELINE + amp * 0.16);
+      d += ' L' + (x + 36) + ',' + (BASELINE - amp * 1.05);
+      d += ' L' + (x + 40) + ',' + (BASELINE + amp * 0.35);
+      d += ' L' + (x + 44) + ',' + BASELINE;
+      d += ' L' + (x + 52) + ',' + BASELINE;
+      d += ' Q' + (x + 60) + ',' + (BASELINE - amp * 0.32) + ' ' + (x + 68) + ',' + BASELINE;
+    }
+    d += ' L' + x1 + ',' + BASELINE;
+    return d;
+  }
+
+  function buildTwistStrand(x0, x1, amp, wavelength, phase, asContinuation){
+    var d = asContinuation ? '' : 'M' + x0 + ',' + (BASELINE + Math.sin(phase) * amp);
+    var step = 6;
+    for (var x = x0 + step; x <= x1; x += step){
+      var t = (x - x0) / wavelength * Math.PI * 2;
+      var y = BASELINE + Math.sin(t + phase) * amp;
+      d += ' L' + x.toFixed(1) + ',' + y.toFixed(1);
+    }
+    return d;
+  }
+
+  function buildBarbs(x0, x1, amp, wavelength, spacing){
+    var svgNS = 'http://www.w3.org/2000/svg';
+    var group = document.getElementById('wireBarbs');
+    var spikeLen = 7;
+    var angles = [25, 115, 205, 295];
+    var i = 0;
+    for (var x = x0 + spacing * 0.5; x <= x1 - spacing * 0.3; x += spacing){
+      var t = (x - x0) / wavelength * Math.PI * 2;
+      var y = BASELINE + Math.sin(t) * amp;
+      var g = document.createElementNS(svgNS, 'g');
+      g.setAttribute('class', 'wire-barb');
+      angles.forEach(function (baseAngle){
+        var rad = (baseAngle + (i % 2 ? 12 : -12)) * Math.PI / 180;
+        var line = document.createElementNS(svgNS, 'line');
+        line.setAttribute('x1', x.toFixed(1));
+        line.setAttribute('y1', y.toFixed(1));
+        line.setAttribute('x2', (x + Math.cos(rad) * spikeLen).toFixed(1));
+        line.setAttribute('y2', (y + Math.sin(rad) * spikeLen).toFixed(1));
+        g.appendChild(line);
+      });
+      var knot = document.createElementNS(svgNS, 'circle');
+      knot.setAttribute('cx', x.toFixed(1));
+      knot.setAttribute('cy', y.toFixed(1));
+      knot.setAttribute('r', 2.1);
+      g.appendChild(knot);
+      group.appendChild(g);
+      i++;
+    }
+  }
+
+  var ekgTrace = document.getElementById('ekgTrace');
+  var wireStrandA = document.getElementById('wireStrandA');
+  var wireStrandB = document.getElementById('wireStrandB');
+  var travelPulse = document.getElementById('travelPulse');
+
+  var ekgD = buildEkgPath(0, 490, 19);
+  ekgTrace.setAttribute('d', ekgD);
+
+  var strandD = buildTwistStrand(490, 980, 7, 42, 0);
+  wireStrandA.setAttribute('d', strandD);
+  wireStrandB.setAttribute('d', buildTwistStrand(490, 980, 7, 42, Math.PI));
+  buildBarbs(490, 980, 7, 42, 30);
+
+  var fullPulseD = ekgD + ' ' + buildTwistStrand(490, 980, 7, 42, 0, true);
+  travelPulse.setAttribute('d', fullPulseD);
+
+  var pulseLen = travelPulse.getTotalLength();
+  var dash = 46;
+  travelPulse.style.strokeDasharray = dash + ' ' + pulseLen;
+  travelPulse.style.setProperty('--pulse-start', '0');
+  travelPulse.style.setProperty('--pulse-end', -(pulseLen + dash));
+</script>
 
 </body>
 </html>
