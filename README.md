@@ -16,10 +16,3 @@ visual, mismo flujo de despliegue (GitHub Pages + iframe al webmaster).
 - Estilo aprobado por Rory, iterado en artifact de Claude (v17, 2026-09-16):
   https://claude.ai/artifact/KT2FyjLA2vWfBJhP4q294W
 - Actualización manual del contenido (editar, commit, push), igual que Barra 1.
-
-**Pendiente:** faltan 4 assets de imagen en `img/` (`hospitales.jpg`,
-`ruinas-icon.png`, `horror-icon-duotone.png`, `helicoide.png`) — el tool de
-Artifact de Claude devolvió error (HTTP 403) al intentar bajarlos de los
-archivos publicados del artifact durante esta promoción. Solo `lp-logo-light.png`
-se copió (ya existía local desde Barra 1). Hay que reintentar la descarga y
-copiarlos a `img/` antes de embeber esto en producción.
